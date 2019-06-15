@@ -1,0 +1,192 @@
+/* Optional: Makes the sample page fill the window. */
+html, body {
+ font-family: 'Comfortaa', cursive !important;
+}
+
+form {
+  border: 1px solid black;
+  padding: 3px;
+  width: 100%;
+  height: 100%;
+}
+
+.bloc-page {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+}
+
+header {
+  display: flex;
+  width: auto;
+  justify-content: center;
+  border-bottom: black solid;
+  height: 70px;
+}
+
+header img {
+  height: 100%;
+  width: auto;
+}
+
+header h1 {
+  font-size: 60px;
+  margin: 0;
+  margin-right: 2px;
+}
+
+h2 {
+  margin: auto;
+  padding: 10px;
+}
+
+.first-bloc {
+  height: 28%;
+  width: auto;
+  overflow: hidden;
+}
+
+.second-bloc {
+  display: flex;
+  width: 100%;
+}
+
+#map {
+  height: 761px;
+ width: 80%;
+ border: 1px solid black;
+}
+
+.form-block {
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  height: max-content;
+}
+
+.title-block {
+  text-align: center;
+}
+
+.big-vlyon {
+  font-size: 36px;
+}
+
+.decoration-line {
+  width: 50px;
+  color: black;
+  border-top: black solid 2px;
+}
+
+hr{
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 10px;
+}
+
+#address {
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc; 
+}
+
+.label-primary {
+  color: white;
+  background-color: #337ab7;
+  padding: 10px 15px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  font-weight: 400;
+}
+
+#reservation-alert, #available_bike_stands, #available_bikes {
+  display: none;
+}
+
+footer {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+}
+
+.heavy {
+  font-weight: 700;
+}
+
+@media screen and (max-width: 1024px) {
+  .second-bloc {
+    flex-direction: column;
+  }
+
+  .bloc-page {
+    height: auto;
+  }
+
+  #map {
+    width: 100%;
+    height: 400px;
+  }
+
+  form {
+    width: 100%;
+    height: min-content;
+  }
+  .form-block {
+    width: 100%;
+  }
+
+  .inputs-block {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .label-primary {
+    color: white;
+    background-color: #337ab7;
+    padding: 10px 15px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    font-weight: 400;
+  }
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-1000%);
+    opacity:1;
+  }
+  100% {
+    transform: translateX(0);
+    opacity:1;
+  }
+}
+
+@keyframes slideInFromRight {
+  0% {
+    transform: translateX(1000%);
+    opacity:1;
+  }
+  100% {
+    transform: translateX(0);
+    opacity:1;
+  }
+}
+
+
+#b-left {
+  opacity: 0;
+  animation: slideInFromLeft 2s ease-out 1.5s 1 forwards;
+}
+
+#b-right {
+  opacity: 0;
+  animation: slideInFromRight 2s ease-out 1.5s 1 forwards;
+}
