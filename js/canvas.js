@@ -12,52 +12,53 @@ class CanvasConstructor {
 
 		this.context = this.canvas[0].getContext('2d');
 
-		// Trait arrondi :
+		// Round lines :
 		this.context.lineJoin = 'round';
 		this.context.lineCap = 'round';
-
+		//Calling methods for mouse and touch
 		this.mouseConstructor();
 		this.touchConstructor();
 	}
 
-	// Click souris enfoncé sur le canvas, je dessine :
+	// When mouse down, we start to draw :
 	mouseConstructor() {
 		var self = this;
 		this.canvas.mousedown(function(e) {
 
 			this.painting = true;
 
-			// Coordonnées de la souris :
-			this.cursorX = (e.pageX - this.offsetLeft); /******************/
-			this.cursorY = (e.pageY - this.offsetTop); /******************/
+			// Coordinates of the mouse :
+			this.cursorX = (e.pageX - this.offsetLeft);
+			this.cursorY = (e.pageY - this.offsetTop);
 
 		});
 
-		// Relachement du Click sur tout le document, j'arrête de dessiner :
+		// When the click is release, we stop drawing :
 		this.canvas.mouseup(function() {
 			this.painting = false;
 			this.started = false;
 		});
 
-		// Mouvement de la souris sur le canvas :
+		// Mouse movements :
 		this.canvas.mousemove(function(e) {
-			// Si je suis en train de dessiner (click souris enfoncé) :
+			// If clicking :
 			if (this.painting) {
-				// Set Coordonnées de la souris :
-				this.cursorX = (e.pageX - this.offsetLeft) - 10; // 10 = décalage du curseur
-				this.cursorY = (e.pageY - this.offsetTop) - 10; /******************/
+				// Setting of the mouse's coordinates :
+				this.cursorX = (e.pageX - this.offsetLeft) - 10; // 10 = cursor offset
+				this.cursorY = (e.pageY - this.offsetTop) - 10;
 
-				// Dessine une ligne :
+				// Drawing a line :
 				self.drawLine(this.cursorX, this.cursorY);
 			}
 		});
+		// Initialising of the reset button
 		self.reset();
 	}
-
+	// Mainly the same than the mouse
 	touchConstructor() {
 
 		var self = this;
-
+		// But we have to use an "addEventListener" as we can't call touch functions on the canvas
 		this.canvas[0].addEventListener('touchstart', function(e) {
 
 			e.preventDefault();
@@ -69,7 +70,9 @@ class CanvasConstructor {
 			this.cursorX = (pageX - this.offsetLeft);
 			this.cursorY = (pageY - this.offsetTop);
 
-		}, false);
+		}, {
+			passive: true
+		});
 
 		this.canvas[0].addEventListener('touchend', function(e) {
 			e.preventDefault();
@@ -77,7 +80,9 @@ class CanvasConstructor {
 			this.painting = false;
 			this.started = false;
 
-		}, false);
+		}, {
+			passive: true
+		});
 
 		this.canvas[0].addEventListener('touchmove', function(e) {
 			if (this.painting) {
@@ -91,21 +96,23 @@ class CanvasConstructor {
 
 				self.drawLine(this.cursorX, this.cursorY);
 			}
-		}, false);
+		}, {
+			passive: true
+		});
 
 		self.reset();
 	}
 
-	// Fonction qui dessine une ligne :
+	// Function to draw a line :
 	drawLine(cursorX, cursorY) {
-		// Si c'est le début, j'initialise
+		// Initialize for the very first time
 		if (!this.started) {
-			// Je place mon curseur pour la première fois :
+			// Placing my cursor for the first time :
 			this.context.beginPath();
 			this.context.moveTo(cursorX, cursorY);
 			this.started = true;
 		}
-		// Sinon je dessine
+		// Otherwise, we draw
 		else {
 			this.context.lineTo(cursorX, cursorY);
 			this.context.strokeStyle = this.color;
@@ -114,14 +121,14 @@ class CanvasConstructor {
 		}
 	}
 
-	// Clear du Canvas :
+	// Clearing the canvas :
 	clear_canvas() {
 		this.context.clearRect(0, 0, this.canvas.width(), this.canvas.height());
-		this.context.beginPath();
+		this.context.beginPath(); // Needed to clear the canvas even if we draw again
 	}
 
 
-	// Bouton Reset :
+	// Reset button :
 	reset() {
 		var self = this;
 		$("#reset").click(function() {

@@ -6,11 +6,12 @@ class Reservation {
 	onClickSave(stationInfosList, reservationAlert, address) {
 		var self = this;
 		$('#submit').on('click', function(event) {
-			event.preventDefault();
-
+			event.preventDefault(); //To avoid the page to reload
+			//If there is at least one bike
 			if (stationInfosList[2] !== 0) {
 				self.changeReservationAlert(reservationAlert, address, this.myInterval);
 			} else if (stationInfosList[2] === 0 && reservationAlert.style.display === 'block') {
+				//If not, we hide the block
 				self.reservationAlertDisplay(reservationAlert, "none");
 			}
 
@@ -21,15 +22,17 @@ class Reservation {
 
 	saveReservation(stationInfosList) {
 		var clientNames = [];
-
+		//Saving the user's last and first names
 		clientNames.push($('#client-firstname').val());
 		clientNames.push($('#client-lastname').val());
 
 		this.storeIt(clientNames, 'localStorage');
+		//Saving station's information
 		this.storeIt(stationInfosList, 'sessionStorage');
 	}
 
 	storageAvailable(type) {
+		//Testing if storage is available
 		try {
 			var storage = window[type],
 				x = '__storage_test__';
@@ -51,71 +54,74 @@ class Reservation {
 				storage.length !== 0;
 		}
 	}
-	storeIt(listToSave, storageType) {
+	storeIt(listToSave, storageType, name) {
 
 		if (this.storageAvailable(storageType)) {
 			if (storageType === 'localStorage') {
-				// Nous pouvons utiliser localStorage
+				// We can use localstorage
 				localStorage.setItem('first_name', listToSave[0]);
 				localStorage.setItem('last_name', listToSave[1]);
 
-			} else if (storageType === 'sessionStorage') {
+			} else if (storageType === 'sessionStorage' && name === null) {
 				sessionStorage.setItem('station_address', listToSave[0]);
 				sessionStorage.setItem('station_available_bike_stands', listToSave[1]);
 				sessionStorage.setItem('station_available_bike', listToSave[2]);
-				console.log('Méthode storeIt ' + sessionStorage.getItem('station_address'));
-				console.log('Méthode storeIt ' + sessionStorage.getItem('station_available_bike_stands'));
-				console.log('Méthode storeIt ' + sessionStorage.getItem('station_available_bike'));
-				console.log(sessionStorage);
+
+			} else if (storageType === 'sessionStorage' && name === "timer") {
+				sessionStorage.setItem('timer_minutes', listToSave[0]);
+				sessionStorage.setItem('timer_seconds', listToSave[1]);
 			}
 		} else {
-			// Malheureusement, localStorage n'est pas disponible
+			// Unfortunately storage is not available
 			alert(storageType + " n'est pas disponible sur votre navigateur");
 		}
 	}
 
 	changeReservationAlert(reservationAlert, address) {
 		var reservationAddress = document.getElementById("reservation-address");
+		//Adding the address of the station where the bike is booked
 		reservationAddress.innerText = " " + sessionStorage.getItem('station_address');
-		console.log('Méthode changeReservationAlert ' + sessionStorage.getItem('station_address'));
-		console.log('Méthode changeReservationAlert ' + reservationAddress.innerText);
+		//Displaying the current reservation
 		this.reservationAlertDisplay(reservationAlert, "block");
 		this.timer(20, 0);
 	}
-
+	//Hidding the reservation block if cancel button is clicked
 	cancelReservation(reservationAlert) {
 		$('#cancel-button').on('click', function(event) {
 			event.preventDefault();
 			self.reservationAlertDisplay(reservationAlert, "none");
 		});
 	}
-
+	//Method to change the display of blocks
 	reservationAlertDisplay(reservationAlert, status) {
 		reservationAlert.style.display = status;
 	}
 
 	timer(min, sec) {
-		this.min = min;
-		this.sec = sec;
-		self = this;
+		var timer = [];
 
+		self = this;
+		//Always clearing interval and timer
 		clearInterval(this.myInterval);
 		this.mytimer.innerHTML = "";
 
 		this.myInterval = setInterval(function() {
+			//Cancel reservation if timer is out
 			if (min == 0 && sec == 0) {
 				self.mytimer.innerHTML = "Réservation annulée";
 				clearInterval(self.myInterval);
-				console.log(self.myInterval);
+
 				var reservationAlert = document.getElementById("reservation-alert");
 				var reservationTitle = document.getElementById("alert-title");
 				var canceledItems = document.getElementsByClassName("cancel");
+				//Changed style for an alert one
 				reservationAlert.className = "alert alert-danger";
 				reservationTitle.innerHTML = "Réservation annulée!";
+
 				for (var i = 0; i < canceledItems.length; i++) {
 					canceledItems[i].style.display = 'none';
 				}
-				console.log(canceledItems);
+
 			} else if (sec == -1) {
 				min--;
 				sec = 59;
@@ -126,6 +132,12 @@ class Reservation {
 				self.mytimer.innerHTML = min + " : " + sec;
 			}
 			sec--;
+			//Store the timer
+			timer.push(min);
+			timer.push(sec);
+			self.storeIt(timer, 'sessionStorage', 'timer');
+
+			timer.length = 0;
 
 		}, 1000);
 

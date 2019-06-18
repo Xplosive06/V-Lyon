@@ -44,6 +44,7 @@
 
 .input-sm {
   padding: 0;
+  padding-left: 5px;
 }
 
 /* Position the "next button" to the right */
@@ -134,21 +135,21 @@
   }
 
   .second-caption, .fourth-caption {
-  left: 50px;
-}
+    left: 50px;
+  }
 
-.third-caption, .fifth-caption {
-  right: 50px;
-  line-height: initial;
-}
+  .third-caption, .fifth-caption {
+    right: 50px;
+    line-height: initial;
+  }
 
-.fifth-caption {
-  width: 42%;
-}
+  .fifth-caption {
+    width: 42%;
+  }
 
-.my-inputs {
-  font-size: 10px;
-}
+  .my-inputs {
+    font-size: 10px;
+  }
 }
 
 @media all and (max-width: 500px){
@@ -207,7 +208,7 @@
   }
 
   .input-sm {
-  font-size: 10px;
-}
+    font-size: 10px;
+  }
 
 }
