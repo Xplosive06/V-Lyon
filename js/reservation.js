@@ -7,6 +7,7 @@ class Reservation {
 		var self = this;
 		$('#submit').on('click', function(event) {
 			event.preventDefault(); //To avoid the page to reload
+			self.saveReservation(stationInfosList);
 			//If there is at least one bike
 			if (stationInfosList[2] !== 0) {
 				self.changeReservationAlert(reservationAlert, address, this.myInterval);
@@ -15,7 +16,6 @@ class Reservation {
 				self.reservationAlertDisplay(reservationAlert, "none");
 			}
 
-			self.saveReservation(stationInfosList);
 			self.cancelReservation(reservationAlert);
 		});
 	}
@@ -28,7 +28,7 @@ class Reservation {
 
 		this.storeIt(clientNames, 'localStorage');
 		//Saving station's information
-		this.storeIt(stationInfosList, 'sessionStorage');
+		this.storeIt(stationInfosList, 'sessionStorage', 'station');
 	}
 
 	storageAvailable(type) {
@@ -62,10 +62,11 @@ class Reservation {
 				localStorage.setItem('first_name', listToSave[0]);
 				localStorage.setItem('last_name', listToSave[1]);
 
-			} else if (storageType === 'sessionStorage' && name === null) {
+			} else if (storageType === 'sessionStorage' && name === 'station') {
 				sessionStorage.setItem('station_address', listToSave[0]);
 				sessionStorage.setItem('station_available_bike_stands', listToSave[1]);
 				sessionStorage.setItem('station_available_bike', listToSave[2]);
+				console.log("storeIt" + sessionStorage.getItem('station_address'));
 
 			} else if (storageType === 'sessionStorage' && name === "timer") {
 				sessionStorage.setItem('timer_minutes', listToSave[0]);
@@ -81,6 +82,8 @@ class Reservation {
 		var reservationAddress = document.getElementById("reservation-address");
 		//Adding the address of the station where the bike is booked
 		reservationAddress.innerText = " " + sessionStorage.getItem('station_address');
+						console.log('changeReservationAlert' + sessionStorage.getItem('station_address'));
+
 		//Displaying the current reservation
 		this.reservationAlertDisplay(reservationAlert, "block");
 		this.timer(20, 0);
