@@ -209,6 +209,8 @@
 
   .input-sm {
     font-size: 10px;
+    width: 100px;
+    padding-left: 0;
   }
 
 }
