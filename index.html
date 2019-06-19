@@ -22,7 +22,7 @@
 
 <body>
 	<div class="bloc-page">
-		<header><img id='b-left' src="images/black_bike_left.png"><h1>V'Lyon</h1><img id='b-right' src="images/black_bike.png"></header>
+		<header><img id='b-left' alt="vélo noir animation à gauche du titre" src="images/black_bike_left.png"><h1>V'Lyon</h1><img id='b-right' alt="vélo noir animation à droite du titre" src="images/black_bike.png"></header>
 
 		<div class="first-bloc">
 			<div class="title-block">
@@ -35,18 +35,18 @@
 				
 				<!-- Full-width images with number and caption text -->
 				<div class="mySlides fade">
-					<img src="images/img_1.png" class="images ">
+					<img src="images/img_1.png" alt="capture écran d'un exemple de carte" class="images ">
 					<div class="text panel-primary first-caption"><div class="panel-heading">1. Choisissez votre station :
 					</div>
-					<div class="panel-body"><img class="dots" src="images/red-dot.png"> : Vélos disponibles</div>
-					<div class="panel-body"><img class="dots" src="images/blue-dot.png"> : Aucun vélo disponible</div>
-					<div class="panel-body"><img class="dots" src="images/m1.png"> <img class="dots" src="images/m2.png"> : Groupes de stations</div>
+					<div class="panel-body"><img class="dots" src="images/red-dot.png" alt="point rouge sur une carte"> : Vélos disponibles</div>
+					<div class="panel-body"><img class="dots" src="images/blue-dot.png" alt="point bleu sur une carte"> : Aucun vélo disponible</div>
+					<div class="panel-body"><img class="dots" src="images/m1.png"> <img class="dots" src="images/m2.png" alt="exemple de marqueurs groupés"> : Groupes de stations</div>
 
 				</div>
 			</div>
 
 			<div class="mySlides fade">
-				<img src="images/img_2.jpg" class="images">
+				<img src="images/img_2.jpg" alt="image de montagne enneigée" class="images">
 				<div class="two-captions">
 					<div class="text panel-primary second-caption"><div class="panel-heading">2. Vérifiez les informations de la station :
 					</div>
@@ -70,7 +70,7 @@
 		</div>
 
 		<div class="mySlides fade">
-			<img src="images/img_3.jpg" class="images">
+			<img src="images/img_3.jpg" alt="image montagne + rivière" class="images">
 			<div class="two-captions">
 				<div class="text panel-primary fourth-caption"><div class="panel-heading">4. Vérifiez une dernière fois toutes les informations puis cliquez sur :
 				</div>
@@ -116,7 +116,6 @@
 			<form class="form-group panel-primary">
 				<div class="panel-heading">Détails de la station</div>
 				<div id="form-block-1">
-					<p>
 						<div id="address" class="panel-body">Veuillez choisir une station</div>
 						<div id="available_bike_stands" class="panel-body"></div>
 						<div id="available_bikes" class="panel-body"></div>
@@ -130,7 +129,6 @@
 								<input class="input-sm" type="text" name="client-lastname" id="client-lastname" required>
 							</div>
 						</div>
-					</p>
 					<canvas class="canvas-style" id="canvas" width="200" height="70"></canvas>
 					<div class="buttons">
 						<input type="reset" id="reset" class="btn btn-default" value="Réinitialiser" />

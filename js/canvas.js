@@ -122,7 +122,7 @@ class CanvasConstructor {
 	}
 
 	// Clearing the canvas :
-	clear_canvas() {
+	clearCanvas() {
 		this.context.clearRect(0, 0, this.canvas.width(), this.canvas.height());
 		this.context.beginPath(); // Needed to clear the canvas even if we draw again
 	}
@@ -133,8 +133,7 @@ class CanvasConstructor {
 		var self = this;
 		$("#reset").click(function() {
 			// Clear canvas :
-			self.clear_canvas();
-
+			self.clearCanvas();
 		});
 	}
 }

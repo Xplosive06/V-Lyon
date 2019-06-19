@@ -82,7 +82,6 @@ class Reservation {
 		var reservationAddress = document.getElementById("reservation-address");
 		//Adding the address of the station where the bike is booked
 		reservationAddress.innerText = " " + sessionStorage.getItem('station_address');
-						console.log('changeReservationAlert' + sessionStorage.getItem('station_address'));
 
 		//Displaying the current reservation
 		this.reservationAlertDisplay(reservationAlert, "block");
