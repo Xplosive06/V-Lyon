@@ -23,7 +23,7 @@ class CanvasConstructor {
 	// When mouse down, we start to draw :
 	mouseConstructor() {
 		var self = this;
-		this.canvas.mousedown(function(e) {
+		this.canvas[0].addEventListener('mousedown', function(e) {
 
 			this.painting = true;
 
@@ -34,13 +34,13 @@ class CanvasConstructor {
 		});
 
 		// When the click is release, we stop drawing :
-		this.canvas.mouseup(function() {
+		this.canvas[0].addEventListener('mouseup', function() {
 			this.painting = false;
 			this.started = false;
 		});
 
 		// Mouse movements :
-		this.canvas.mousemove(function(e) {
+		this.canvas[0].addEventListener('mousemove', function(e) {
 			// If clicking :
 			if (this.painting) {
 				// Setting of the mouse's coordinates :
@@ -61,7 +61,6 @@ class CanvasConstructor {
 		// But we have to use an "addEventListener" as we can't call touch functions on the canvas
 		this.canvas[0].addEventListener('touchstart', function(e) {
 
-			e.preventDefault();
 			this.painting = true;
 
 			var pageX = e.touches[0].pageX; //to get pageX value in touch devices
@@ -75,7 +74,6 @@ class CanvasConstructor {
 		});
 
 		this.canvas[0].addEventListener('touchend', function(e) {
-			e.preventDefault();
 
 			this.painting = false;
 			this.started = false;
@@ -86,7 +84,6 @@ class CanvasConstructor {
 
 		this.canvas[0].addEventListener('touchmove', function(e) {
 			if (this.painting) {
-				e.preventDefault();
 
 				var pageX = e.touches[0].pageX; //to get pageX value in touch devices
 				var pageY = e.touches[0].pageY; //to get pageY value in touch devices  

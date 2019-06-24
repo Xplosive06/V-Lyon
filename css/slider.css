@@ -213,4 +213,8 @@
     padding-left: 0;
   }
 
+  .images {
+    width: auto;
+  }
+
 }
