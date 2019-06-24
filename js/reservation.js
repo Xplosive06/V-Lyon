@@ -66,7 +66,6 @@ class Reservation {
 				sessionStorage.setItem('station_address', listToSave[0]);
 				sessionStorage.setItem('station_available_bike_stands', listToSave[1]);
 				sessionStorage.setItem('station_available_bike', listToSave[2]);
-				console.log("storeIt" + sessionStorage.getItem('station_address'));
 
 			} else if (storageType === 'sessionStorage' && name === "timer") {
 				sessionStorage.setItem('timer_minutes', listToSave[0]);
