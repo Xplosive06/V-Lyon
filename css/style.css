@@ -203,3 +203,10 @@ footer {
     font-size: 13px;
   }
 }
+
+@-moz-document url-prefix() {
+  .slider_option {
+    bottom: 110px;
+    padding: 5px;
+  }
+}
