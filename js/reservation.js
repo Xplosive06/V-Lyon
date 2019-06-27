@@ -30,8 +30,8 @@ class Reservation {
 				self.reservationAlertDisplay(reservationAlert, "none");
 			}
 
-			self.cancelReservation(reservationAlert);
 		});
+			self.cancelReservation(reservationAlert);
 	}
 
 	saveReservation(stationInfosList) {

@@ -15,6 +15,7 @@ class MapConstructor {
     //Calling Reservation class
     this.reservation = new Reservation();
     this.reservation.checkReservation(this.reservationAlert);
+    this.reservation.cancelReservation(this.reservationAlert);
     //Calling the needed methods
     this.getInfo();
     this.preFillFields();
