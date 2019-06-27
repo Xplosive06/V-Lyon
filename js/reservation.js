@@ -8,13 +8,17 @@ class Reservation {
 		var sessionStationAddress = sessionStorage.getItem('station_address');
 		var sessionMinutes = sessionStorage.getItem('timer_minutes');
 		var sessionSeconds = sessionStorage.getItem('timer_seconds');
-		if (sessionStationAddress && sessionMinutes && sessionSeconds) {
+		var sessionCanceled = sessionStorage.getItem('cancel');
+
+		if (sessionCanceled == 1) {
+
+			this.reservationAlertDisplay(reservationAlert, "none");
+
+		} else if (sessionStationAddress && sessionMinutes && sessionSeconds) {
 			this.changeReservationAlert(reservationAlert, sessionStationAddress);
 			this.timer(sessionMinutes, sessionSeconds);
 		}
-
 	}
-
 
 	onClickSave(stationInfosList, reservationAlert, address) {
 		var self = this;
@@ -25,13 +29,14 @@ class Reservation {
 			if (stationInfosList[2] !== 0) {
 				self.changeReservationAlert(reservationAlert, address);
 				self.timer(20, 0);
+				sessionStorage.setItem('cancel', 0);
 			} else if (stationInfosList[2] === 0 && reservationAlert.style.display === 'block') {
 				//If not, we hide the block
 				self.reservationAlertDisplay(reservationAlert, "none");
 			}
 
 		});
-			self.cancelReservation(reservationAlert);
+		self.cancelReservation(reservationAlert);
 	}
 
 	saveReservation(stationInfosList) {
@@ -104,6 +109,7 @@ class Reservation {
 		$('#cancel-button').on('click', function(event) {
 			event.preventDefault();
 			self.reservationAlertDisplay(reservationAlert, "none");
+			sessionStorage.setItem('cancel', 1);
 		});
 	}
 	//Method to change the display of blocks
