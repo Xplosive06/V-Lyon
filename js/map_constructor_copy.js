@@ -3,6 +3,7 @@ class MapConstructor {
   constructor() {
     //Declaring variables
     this.map;
+    this.stationContract;
     this.url = "https://api.jcdecaux.com/vls/v1/stations?contract=Lyon&apiKey=a1fc8a2bf44b8faa8fead1123cf017277ac09c00";
     //Calling Reservation class
     this.reservation = new Reservation();
@@ -11,10 +12,6 @@ class MapConstructor {
     this.myAvailableBikeStands = document.getElementById("available_bike_stands");
     this.myBikes = document.getElementById("available_bikes");
     this.reservationAlert = document.getElementById("reservation-alert");
-    
-    //Calling Reservation class
-    this.reservation = new Reservation();
-    this.reservation.checkReservation(this.reservationAlert);
     //Calling the needed methods
     this.getInfo();
     this.preFillFields();
@@ -42,12 +39,13 @@ class MapConstructor {
     var self = this;
 
     $.get(this.url, function(data, status) {
+      this.stationContract = data;
 
       /* ===================================== MAP =======================================*/
 
       this.map = new google.maps.Map(document.getElementById('map'), {
         zoom: 13,
-        center: new google.maps.LatLng(45.756901, 4.838194),
+        center: this.LatLng(45.756901, 4.838194),
         mapTypeId: 'terrain'
       });
 
@@ -61,34 +59,33 @@ class MapConstructor {
 
       // Loop through the results array and place a marker and an icon for each
       // set of coordinates.
-      for (var i = 0; i < data.length; i++) {
-        var station = new Station(data[i].position.lat, data[i].position.lng, data[i].available_bikes, data[i].name, data[i].address, data[i].available_bike_stands);
-        var latLng = new google.maps.LatLng(station.getPositionLat(), station.getPositionLng());
+      for (var i = 0; i < this.stationContract.length; i++) {
+        var latLng = new google.maps.LatLng(this.stationContract[i].position.lat, this.stationContract[i].position.lng);
         var marker = new google.maps.Marker({
           position: latLng,
           map: this.map,
-          title: station.getName(),
-          icon: self.getIcons(station.getAvailable_bikes())
+          title: this.stationContract[i].name,
+          icon: self.getIcons(this.stationContract[i].available_bikes)
         });
 
-        availableBikes += parseInt(station.getAvailable_bikes(), 10); //"10" is for using decimal
+        availableBikes += parseInt(this.stationContract[i].available_bikes, 10); //"10" is for using decimal
         //Adding listeners on markers **
-        self.addInfoWindow(marker, station, i);
+        self.addInfoWindow(marker, this.stationContract, i);
         markersList.push(marker);
       }
       availableBikesSpan.innerText = availableBikes;
-      availableStationsSpan.innerText = data.length;
+      availableStationsSpan.innerText = this.stationContract.length;
       self.markerClusterers(this.map, markersList, imageClusterPath);
     });
 
   }
   //**
-  addInfoWindow(marker, station, i) {
+  addInfoWindow(marker, stationContract, i) {
     var self = this;
 
     google.maps.event.addListener(marker, 'click', function() {
       //change form on click onto a marker **
-      self.changeFormInfos(station, i);
+      self.changeFormInfos(stationContract, i);
 
     });
   }
@@ -98,25 +95,25 @@ class MapConstructor {
       return "http://maps.google.com/mapfiles/ms/icons/blue-dot.png";
   }
   //**
-  changeFormInfos(station, i) {
+  changeFormInfos(stationContract, i) {
     var stationList = [];
-    stationList.push(station.getAddress(), station.getAvailable_bike_stands(), station.getAvailable_bikes());
+    stationList.push(stationContract[i].address, stationContract[i].available_bike_stands, stationContract[i].available_bikes);
 
-    if (station.getAvailable_bikes() == 0) {
+    if (stationContract[i].available_bikes == 0) {
       this.myAvailableBikeStands.innerText = "Aucun vélo de disponible";
       this.myBikes.innerText = "Veuillez choisir une autre station";
     } else {
 
-      this.myAvailableBikeStands.innerText = station.getAvailable_bike_stands() + " places disponibles";
-      this.myBikes.innerText = station.getAvailable_bikes() + " vélos disponibles";
+      this.myAvailableBikeStands.innerText = stationContract[i].available_bike_stands + " places disponibles";
+      this.myBikes.innerText = stationContract[i].available_bikes + " vélos disponibles";
 
     }
     this.myAvailableBikeStands.style.display = 'block';
     this.myBikes.style.display = 'block';
 
-    this.myAddress.innerText = "Adresse : " + station.getAddress();
+    this.myAddress.innerText = "Adresse : " + stationContract[i].address;
     //Saving the reservation
-    this.reservation.onClickSave(stationList, this.reservationAlert, station.getAddress());
+    this.reservation.onClickSave(stationList, this.reservationAlert, stationContract[i].address);
   }
 
   markerClusterers(map, markersList, imageClusterPath) {

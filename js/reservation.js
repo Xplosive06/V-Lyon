@@ -3,6 +3,19 @@ class Reservation {
 		this.mytimer = document.getElementById("timer");
 		this.myInterval;
 	}
+
+	checkReservation(reservationAlert) {
+		var sessionStationAddress = sessionStorage.getItem('station_address');
+		var sessionMinutes = sessionStorage.getItem('timer_minutes');
+		var sessionSeconds = sessionStorage.getItem('timer_seconds');
+		if (sessionStationAddress && sessionMinutes && sessionSeconds) {
+			this.changeReservationAlert(reservationAlert, sessionStationAddress);
+			this.timer(sessionMinutes, sessionSeconds);
+		}
+
+	}
+
+
 	onClickSave(stationInfosList, reservationAlert, address) {
 		var self = this;
 		$('#submit').on('click', function(event) {
@@ -10,7 +23,8 @@ class Reservation {
 			self.saveReservation(stationInfosList);
 			//If there is at least one bike
 			if (stationInfosList[2] !== 0) {
-				self.changeReservationAlert(reservationAlert, address, this.myInterval);
+				self.changeReservationAlert(reservationAlert, address);
+				self.timer(20, 0);
 			} else if (stationInfosList[2] === 0 && reservationAlert.style.display === 'block') {
 				//If not, we hide the block
 				self.reservationAlertDisplay(reservationAlert, "none");
@@ -84,7 +98,6 @@ class Reservation {
 
 		//Displaying the current reservation
 		this.reservationAlertDisplay(reservationAlert, "block");
-		this.timer(20, 0);
 	}
 	//Hidding the reservation block if cancel button is clicked
 	cancelReservation(reservationAlert) {
